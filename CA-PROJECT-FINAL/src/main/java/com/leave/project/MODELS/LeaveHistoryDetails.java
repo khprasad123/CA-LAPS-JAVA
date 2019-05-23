@@ -31,7 +31,7 @@ public class LeaveHistoryDetails {
 	private String applyingReason;
 	private String rejectionReason;
 	@NotNull
-	private Status status=Status.APPLIED;
+	private String status="APPLIED";
 	private String workDesemination;
 	
 	
@@ -80,12 +80,7 @@ public class LeaveHistoryDetails {
 	public void setRejectionReason(String rejectionReason) {
 		this.rejectionReason = rejectionReason;
 	}
-	public Status getStatus() {
-		return status;
-	}
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+
 	public String getWorkDesemination() {
 		return workDesemination;
 	}
@@ -93,7 +88,7 @@ public class LeaveHistoryDetails {
 		this.workDesemination = workDesemination;
 	}
 	public LeaveHistoryDetails(int leaveHistoryId, Employee employee, LeaveType leaveType, @NotNull Date startDate,
-			@NotNull Date endDate, @NotNull String applyingReason, String rejectionReason, @NotNull Status status,
+			@NotNull Date endDate, @NotNull String applyingReason, String rejectionReason, @NotNull String status,
 			String workDesemination) {
 		super();
 		this.leaveHistoryId = leaveHistoryId;
@@ -105,6 +100,12 @@ public class LeaveHistoryDetails {
 		this.rejectionReason = rejectionReason;
 		this.status = status;
 		this.workDesemination = workDesemination;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public LeaveHistoryDetails() {
 		super();
