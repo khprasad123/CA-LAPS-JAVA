@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import com.leave.project.UTILITIES.Status;
-
 @Entity
 public class LeaveHistoryDetails {
 	@Id
