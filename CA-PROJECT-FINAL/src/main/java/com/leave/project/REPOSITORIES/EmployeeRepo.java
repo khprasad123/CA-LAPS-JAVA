@@ -2,6 +2,7 @@ package com.leave.project.REPOSITORIES;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,6 @@ import com.leave.project.MODELS.Role;
 public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
 	@Query(nativeQuery = true, value="SELECT * from Employee E where E.Role_Id in (select role_id from Role where role_name='Manager')")
 	public ArrayList<Employee> findAllManagers();
+	
+	public Collection<Employee> findByUserNameAndPassword(String userName,String password);
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta name="viewport" content="width=device-width" />
+	<title>Login</title>
+	<link rel="stylesheet" th:href="@{/css/StyleLogin.css}" href="../../static/css/StyleLogin.css" />
+	<th:block th:include="layout/Header"></th:block>
+</head>
+
+<body>
+    <div id="login-div">
+    <form  th:object="${employee}" th:action="@{/authenticate}" method="post">
+            <table align="center">
+                <tr><th colspan="2" class="Login">Login</th> </tr>
+                <tr>
+                    <th>User name</th>
+                    <td><input placeholder="Your Username" type="text" tabindex="2"
+						   th:field="*{Username}"></td><td></td>
+                </tr>
+                <tr>
+                    <th>PassWord</th>
+                    <td><input placeholder="Your password" type="password" tabindex="2"
+						   th:field="*{Password}"></td><td></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <label class="field-validation-error" th:text="*{error}"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" class="button" value="Login" /></td>
+                </tr>
+            </table>
+            </form>
+    </div>
+</body>
+</html>
