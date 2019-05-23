@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>View Employees</title>
+    <th:block th:include="layout/Header"></th:block>
+    <link rel="stylesheet" th:href="@{/css/TableCss.css}"
+	href="../../static/css/TableCss.css" />
+</head>
+<body>
+<div class="container">
+ <h2>All Hollydays</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Description</th>
+            </tr>
+            <tr><td th:if="${#lists.isEmpty(hollydays)}">List is Empty</td></tr>
+            <tr th:each="hollyday : ${hollydays}">
+                <td th:text="${hollyday.getHollydayName()}">Name</td>
+                <td th:text="${hollyday.getStartDate()}">Date</td>
+                <td th:text="${hollyday.getDescription()}">Description</td>
+                <td><a th:href="${'/Hollyday/edit/' + hollyday.getHollydayId()}" class="btn btn-default">Edit</a></td>
+                <td><a th:href="${'/Hollyday/delete/' + hollyday.getHollydayId()}" class="btn btn-danger">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
