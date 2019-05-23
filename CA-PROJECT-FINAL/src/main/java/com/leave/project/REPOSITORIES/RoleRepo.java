@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 import com.leave.project.MODELS.*;
 @Repository
 public interface RoleRepo extends JpaRepository<Role, Integer>{
-	@Query(nativeQuery = true, value="SELECT * FROM role")
-	public ArrayList<Role> findAllRoles();
 }

@@ -55,7 +55,7 @@ public class DataLoader implements CommandLineRunner {
 		
 		  Role r1=new Role("Manager"); Role r2=new Role("Admin"); Role r3=new
 		  Role("Staff"); 
-		  Employee E1=new Employee("Hariprasad ","kannan@email.com","khprasad","123",r2, null);
+		  Employee E1=new Employee("ADMIN","kannan@email.com","admin","admin",r2, null);
 		  E1.setReportsTo(E1);
 		  Employee E2=new Employee("Hari ","hari@email.com","khprasad143","123",r1, E1);
 		  
@@ -86,6 +86,7 @@ public class DataLoader implements CommandLineRunner {
 		  RoleLeaveType R10=new RoleLeaveType(r3,L3, 80);
 		  
 		  roleLeave.save(R1);roleLeave.save(R2);roleLeave.save(R3);roleLeave.save(R8);roleLeave.save(R9);roleLeave.save(R10);
+		  
 		  
 	  
 	}

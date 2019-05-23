@@ -1,7 +1,6 @@
 package com.leave.project.CONTROLLERS;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +19,7 @@ import com.leave.project.REPOSITORIES.RoleRepo;
 
 @Controller
 public class AdminEmployeeController {
+	
 	private EmployeeRepo empRepo;
 	@Autowired
 	public void setEmprepo(EmployeeRepo emprepo) {
@@ -27,8 +27,6 @@ public class AdminEmployeeController {
 	}
 	
 	private RoleRepo roleRepo;
-	
-	//All the Controlls for Employee Operations
 	@Autowired
 	public void setRoleRepo(RoleRepo roleRepo) {
 		this.roleRepo = roleRepo;
@@ -40,22 +38,25 @@ public class AdminEmployeeController {
 		ArrayList<Employee> list = (ArrayList<Employee>) empRepo.findAll();
 		list = (ArrayList<Employee>)list.stream().filter(emp -> !emp.getRole().getRoleName().equalsIgnoreCase("admin")).collect(Collectors.toList());
 		model.addAttribute("employees", list);
-	//trying to do something
 		return "ViewEmployees";
 	}
+	
+	
 	@GetMapping(path = "/Employee/add")
 	public String getEmployeeForm(Model model) {
-		List<Employee> managers = empRepo.findAllManagers();
+		List<Employee> managers = empRepo.findAll();
+		managers = (List<Employee>)managers.stream().filter(emp -> emp.getRole().getRoleName().equalsIgnoreCase("manager")).collect(Collectors.toList());
 		model.addAttribute("MANAGERS", managers);
-		System.out.println("hey i am here");
-		model.addAttribute("EMPLOYEE_ROLES",roleRepo.findAllRoles());
-		System.out.println("hey i am in the middle");
+		model.addAttribute("EMPLOYEE_ROLES",roleRepo.findAll());
 		model.addAttribute("employee", new Employee());
 		return "EmployeeAdd";
 	}
+	
+	
+	
+	
 	@PostMapping(path = "/Employee")
 	public String saveEmployee(Model model,Employee E) {
-		System.out.println("Iam in side the controller bro");
 		try{
 			empRepo.save(E);
 		}catch(Exception e) {
@@ -64,20 +65,19 @@ public class AdminEmployeeController {
 		return "redirect:/Employee/view";
 	}
 	
+	
 	@RequestMapping(path = "/Employee/edit/{id}", method = RequestMethod.GET)
-	public String editProduct(Model model, @PathVariable(value = "id") int id) {
-		List<Employee> managers = empRepo.findAllManagers();
+	public String editProduct(@PathVariable(value = "id") int id,Model model) {
+		List<Employee> managers = empRepo.findAll();
+		managers = (List<Employee>)managers.stream().filter(emp -> emp.getRole().getRoleName().equalsIgnoreCase("manager")).collect(Collectors.toList());
 		model.addAttribute("MANAGERS", managers);
-		Employee E = empRepo.findById(id).orElse(null);
-		model.addAttribute("EMPLOYEE_ROLES",roleRepo.findAllRoles()); 
-		model.addAttribute("EMPLOYEE_RT",E.getReportsTo().getEmpId()); //just for checking
-		System.out.println("hey i am in the middle");
-		model.addAttribute("employee", E);
-		
-		model.addAttribute("MANAGERS", managers);
-		return "EmployeeEdit";
+		model.addAttribute("EMPLOYEE_ROLES",roleRepo.findAll());
+		model.addAttribute("employee", empRepo.findById(id));
+		return "EmployeeAdd";
 	}
-//for deletion simple 
+	
+	
+	
 	@RequestMapping(path = "/Employee/delete/{id}", method = RequestMethod.GET)
 	public String deleteProduct(@PathVariable(name = "id") int id) {
 		try{
