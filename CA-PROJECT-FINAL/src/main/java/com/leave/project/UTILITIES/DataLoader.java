@@ -67,26 +67,22 @@ public class DataLoader implements CommandLineRunner {
 		  System.out.println("Manager insertion Failed bro"); }
 		
 		  
-		  LeaveType L1=new LeaveType("Medical");
-		  LeaveType L2=new LeaveType("Anual");
-		  LeaveType L3=new LeaveType("Compensation");
-		  leaveTrepo.save(L1);leaveTrepo.save(L2);leaveTrepo.save(L3);
-		  
-		  RoleLeaveType R1=new RoleLeaveType(r1,L1, 30);
-		  RoleLeaveType R2=new RoleLeaveType(r1,L2, 60);
-		  RoleLeaveType R3=new RoleLeaveType(r1,L3, 100);
-		  
 		/*
-		 * RoleLeaveType R4=new RoleLeaveType(r2,L1, 30); RoleLeaveType R5=new
-		 * RoleLeaveType(r2,L2, 60); RoleLeaveType R6=new RoleLeaveType(r2,L3, 90);
+		 * LeaveType L1=new LeaveType("Medical"); LeaveType L2=new LeaveType("Anual");
+		 * LeaveType L3=new LeaveType("Compensation");
+		 * leaveTrepo.save(L1);leaveTrepo.save(L2);leaveTrepo.save(L3);
+		 * 
+		 * RoleLeaveType R1=new RoleLeaveType(r1,L1, 30); RoleLeaveType R2=new
+		 * RoleLeaveType(r1,L2, 60); RoleLeaveType R3=new RoleLeaveType(r1,L3, 100);
+		 * 
+		 * 
+		 * 
+		 * RoleLeaveType R8=new RoleLeaveType(r3,L1, 30); RoleLeaveType R9=new
+		 * RoleLeaveType(r3,L2, 60); RoleLeaveType R10=new RoleLeaveType(r3,L3, 80);
+		 * 
+		 * roleLeave.save(R1);roleLeave.save(R2);roleLeave.save(R3);roleLeave.save(R8);
+		 * roleLeave.save(R9);roleLeave.save(R10);
 		 */
-		 
-		  RoleLeaveType R8=new RoleLeaveType(r3,L1, 30); 
-		  RoleLeaveType R9=new RoleLeaveType(r3,L2, 60); 
-		  RoleLeaveType R10=new RoleLeaveType(r3,L3, 80);
-		  
-		  roleLeave.save(R1);roleLeave.save(R2);roleLeave.save(R3);roleLeave.save(R8);roleLeave.save(R9);roleLeave.save(R10);
-		  
 		  
 	  
 	}

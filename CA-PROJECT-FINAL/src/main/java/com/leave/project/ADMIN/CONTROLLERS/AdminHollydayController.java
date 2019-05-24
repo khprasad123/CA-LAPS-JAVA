@@ -1,6 +1,4 @@
-package com.leave.project.CONTROLLERS;
-
-import java.util.ArrayList;
+package com.leave.project.ADMIN.CONTROLLERS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +19,7 @@ public class AdminHollydayController {
 	public void setPhRepo(PublicHollydayRepo phRepo) {
 		this.phRepo = phRepo;
 	}
-	//hollyday manipulation    -----EDIT IS NOT AS WORKING BETTER SO WE JUST MAKING DELETION 
-	//INSTEAD
+	
 	@GetMapping(path="/Hollyday/view")
 	public String viewHollydays(Model model) {
 		model.addAttribute("hollydays",phRepo.findAll());
@@ -38,7 +35,7 @@ public class AdminHollydayController {
 		phRepo.save(E);
 		return "redirect:/Hollyday/view";
 	}
-	//SIMPLY AVOIDED FOR EASE OF USE
+
 	
 	 @GetMapping(path="/Hollyday/edit/{id}") 
 	 public String editHollyday(@PathVariable(name = "id") int id,Model model) {

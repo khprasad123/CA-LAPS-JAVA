@@ -3,6 +3,8 @@
 <head lang="en">
 	<title>Employee Registration Form</title>
 	<th:block th:include="layout/Header"></th:block>
+	    <link rel="stylesheet" th:href="@{/css/TableCss.css}"
+	href="../../static/css/TableCss.css" />
 </head>
 <body>
 	<form th:object="${hollyday}" th:action="@{/Hollyday}" method="post">

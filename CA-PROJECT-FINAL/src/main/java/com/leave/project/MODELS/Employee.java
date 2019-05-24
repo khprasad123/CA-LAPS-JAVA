@@ -112,7 +112,7 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [empId=" + empId + ", fullName=" + fullName + ", email=" + email + ", userName=" + userName
-				+ ", password=" + password + ", role=" + role + ", reportsTo=" + reportsTo + "]";
+				+ ", password=" + password + ", role=" + role.toString() + ", reportsTo=" + reportsTo.getFullName() + "]";
 	}
 	
 	

@@ -1,7 +1,6 @@
 package com.leave.project.SERVICES;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,18 @@ public class EmployeeService implements IEmployeeService {
 	public Employee authenticate(String userName,String password) {
 		System.out.println(userName + password);
 		System.out.println("I am inside the service Class");
-		List<Employee> temp=(List<Employee>)empRepo.findByUserNameAndPassword(userName, password);
-		if(temp==null)
+		List<Employee> list=(List<Employee>)empRepo.findByUserNameAndPassword(userName, password);
+		if(list==null)
 			return null;
-		return temp.get(0);
+		return list.get(0);
+	}
+	//for house keeping functions
+	
+	@Transactional
+	public boolean DoTheHousekeeping() {
+		
+		
+		return true;
 	}
 	
 	

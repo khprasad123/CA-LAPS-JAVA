@@ -1,4 +1,4 @@
-package com.leave.project.CONTROLLERS;
+package com.leave.project.ADMIN.CONTROLLERS;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,12 +13,17 @@ import org.springframework.web.servlet.ModelAndView;
 import com.leave.project.BEANS.UserSession;
 import com.leave.project.FORMS.LoginForm;
 import com.leave.project.MODELS.Employee;
+import com.leave.project.REPOSITORIES.EmployeeRepo;
 import com.leave.project.SERVICES.IEmployeeService;
 
 @Controller
 @SessionAttributes("session")
 public class SimpleControler {
 		
+	
+		@Autowired
+		private EmployeeRepo empRepo;
+	
 		@Autowired
 		private IEmployeeService emp;
 		
@@ -34,7 +39,7 @@ public class SimpleControler {
 			login.error="Login Failed ---Invalid Credentials ";
 			mv.addObject("employee",login);
 			if(login==null || login.getUsername().equals("")||login.getPassword().equals("") )
-				return mv;
+				return mv;   //Failed
 			
 			System.out.println(login.getUsername());System.out.println(login.getPassword());
 			
@@ -50,7 +55,6 @@ public class SimpleControler {
 			 			 break;
 			case "Manager":mv=new ModelAndView("MANAGER");
 			 			 break;
-				
 			}
 			UserSession user=new UserSession();
 			user.setEmployee(E);

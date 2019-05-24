@@ -1,4 +1,4 @@
-package com.leave.project.CONTROLLERS;
+package com.leave.project.ADMIN.CONTROLLERS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class AdminEmployeeController {
 	}
 	
 	
-	@RequestMapping(path = "/Employee/edit/{id}", method = RequestMethod.GET)
+	@GetMapping(path = "/Employee/edit/{id}")
 	public String editProduct(@PathVariable(value = "id") int id,Model model) {
 		List<Employee> managers = empRepo.findAll();
 		managers = (List<Employee>)managers.stream().filter(emp -> emp.getRole().getRoleName().equalsIgnoreCase("manager")).collect(Collectors.toList());
