@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
- <h2>All Employees</h2><h2 align="right"> <a th:href="${'/Employee/add'}" class="btn btn-danger">ADD NEW EMPLOYEE</a></h2>
+ <h2>All Employees</h2><h2 align="right"> <a th:href="${'/admin/Employee/add'}" class="btn btn-danger">ADD NEW EMPLOYEE</a></h2>
         <table class="table table-striped">
             <tr>
                 
@@ -29,8 +29,8 @@
                 <td th:text="${employee.getPassword()}">PassWord</td>
                 <td th:text="${employee.role.getRoleName()}">Role</td>
                 <td th:text="${employee.getReportsTo().getFullName()}">Manager</td>
-                <td><a th:href="${'/Employee/edit/' + employee.empId}" class="btn btn-default">Edit</a></td>
-                <td><a th:href="${'/Employee/delete/' + employee.empId}" class="btn btn-danger">Delete</a></td>
+                <td><a th:href="${'/admin/Employee/edit/' + employee.empId}" class="btn btn-default">Edit</a></td>
+                <td><a th:href="${'/admin/Employee/delete/' + employee.empId}" class="btn btn-danger">Delete</a></td>
             </tr>
         </table>
     </div>

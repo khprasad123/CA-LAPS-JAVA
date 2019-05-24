@@ -1,5 +1,6 @@
 package com.leave.project.MODELS;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int roleId;
+	@Column(unique=true)
 	@Length(max=100)
 	private String roleName;
 	///getters and setters

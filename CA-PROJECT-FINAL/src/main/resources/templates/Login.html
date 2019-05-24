@@ -9,22 +9,23 @@
 
 <body>
     <div id="login-div">
-    <form  th:object="${employee}" th:action="@{/authenticate}" method="post">
+    <form  th:object="${employee}" th:action="@{/*/authenticate}" method="post">
             <table align="center">
                 <tr><th colspan="2" class="Login">Login</th> </tr>
                 <tr>
                     <th>User name</th>
                     <td><input placeholder="Your Username" type="text" tabindex="2"
-						   th:field="*{Username}"></td><td></td>
+						   th:field="*{Username}" required></td><td></td>
                 </tr>
                 <tr>
                     <th>PassWord</th>
                     <td><input placeholder="Your password" type="password" tabindex="2"
-						   th:field="*{Password}"></td><td></td>
+						   th:field="*{Password}" required></td><td></td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         <label class="field-validation-error" th:text="*{error}"></label>
+                        <label class="field-validation-error" th:text="${ERROR}"></label>
                     </td>
                 </tr>
                 <tr>

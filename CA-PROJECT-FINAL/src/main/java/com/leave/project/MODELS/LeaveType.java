@@ -1,16 +1,20 @@
 package com.leave.project.MODELS;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class LeaveType {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int leaveTypeId;
-	
+	@Column(unique=true)
+	@Length(max=100)
 	private String type;
 	
 	
