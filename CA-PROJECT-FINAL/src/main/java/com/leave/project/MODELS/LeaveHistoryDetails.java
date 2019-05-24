@@ -3,12 +3,16 @@ package com.leave.project.MODELS;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import com.leave.project.UTILITIES.Status;
 
 @Entity
 public class LeaveHistoryDetails {
@@ -29,19 +33,9 @@ public class LeaveHistoryDetails {
 	private String applyingReason;
 	private String rejectionReason;
 	@NotNull
-	private String status="APPLIED";
+	@Enumerated(EnumType.STRING)
+	private Status status=Status.APPLIED;
 	private String workDesemination;
-	
-	
-	///getters and setters
-	
-	
-	public int getLeaveHistoryId() {
-		return leaveHistoryId;
-	}
-	public void setLeaveHistoryId(int leaveHistoryId) {
-		this.leaveHistoryId = leaveHistoryId;
-	}
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -78,18 +72,25 @@ public class LeaveHistoryDetails {
 	public void setRejectionReason(String rejectionReason) {
 		this.rejectionReason = rejectionReason;
 	}
-
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	public String getWorkDesemination() {
 		return workDesemination;
 	}
 	public void setWorkDesemination(String workDesemination) {
 		this.workDesemination = workDesemination;
 	}
-	public LeaveHistoryDetails(int leaveHistoryId, Employee employee, LeaveType leaveType, @NotNull Date startDate,
-			@NotNull Date endDate, @NotNull String applyingReason, String rejectionReason, @NotNull String status,
-			String workDesemination) {
+	public LeaveHistoryDetails() {
 		super();
-		this.leaveHistoryId = leaveHistoryId;
+		// TODO Auto-generated constructor stub
+	}
+	public LeaveHistoryDetails(Employee employee, LeaveType leaveType, @NotNull Date startDate, @NotNull Date endDate,
+			@NotNull String applyingReason, String rejectionReason, @NotNull Status status, String workDesemination) {
+		super();
 		this.employee = employee;
 		this.leaveType = leaveType;
 		this.startDate = startDate;
@@ -99,16 +100,15 @@ public class LeaveHistoryDetails {
 		this.status = status;
 		this.workDesemination = workDesemination;
 	}
-	public String getStatus() {
-		return status;
+	public int getLeaveHistoryId() {
+		return leaveHistoryId;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setLeaveHistoryId(int leaveHistoryId) {
+		this.leaveHistoryId = leaveHistoryId;
 	}
-	public LeaveHistoryDetails() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
+	
+	///getters and setters
 	
 	
 }

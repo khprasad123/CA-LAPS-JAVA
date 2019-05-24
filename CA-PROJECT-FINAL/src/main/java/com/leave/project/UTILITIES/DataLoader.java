@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.leave.project.MODELS.Employee;
+import com.leave.project.MODELS.LeaveType;
 import com.leave.project.MODELS.Role;
 import com.leave.project.REPOSITORIES.EmployeeRepo;
 import com.leave.project.REPOSITORIES.LeaveTypeRepo;
@@ -38,13 +39,20 @@ public class DataLoader implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		logger.info("ApplicationStartupRunner run method Started !!");
 		
+		  LeaveType t1=new LeaveType("Medical Leave");
+		  LeaveType t2=new LeaveType("Compensation Leave");
+		  LeaveType t3=new LeaveType("Annual Leave");
+		  try {
+			  leaveTrepo.save(t1);leaveTrepo.save(t2);leaveTrepo.save(t3);
+		  }catch(Exception e) {
+			  System.out.println("Leave Type Added Succesfully");
+		  }
 		  Role r1=new Role("Manager"); Role r2=new Role("Admin"); Role r3=new
 		  Role("Staff"); 
 		  Employee E1=new Employee("ADMIN","kannan@email.com","admin","admin",r2, null,30,10,10);
 		  E1.setReportsTo(E1); 
 		  
 		  Employee E2=new Employee("Hari ","hari@email.com","khprasad143","123",r1, E1,30,10,10);
-		  
 		  
 		  try{ roleRepo.save(r1); roleRepo.save(r2); roleRepo.save(r3);
 		  }catch(Exception e) { System.out.println("Role Already there Bro"); }

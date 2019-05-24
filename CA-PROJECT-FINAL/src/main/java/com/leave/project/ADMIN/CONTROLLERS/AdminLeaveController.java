@@ -41,6 +41,6 @@ public class AdminLeaveController {
 	@RequestMapping(path ="/LeaveType/delete/{id}", method = RequestMethod.GET)
 	public String deleteProduct(@PathVariable(name = "id") int id,Model model){
 		leaveRepo.delete(leaveRepo.findById(id).orElse(null)); 
-		return "redirect:/leaveRepo/view";
+		return "redirect:/LeaveType/view";
 	}
 }
