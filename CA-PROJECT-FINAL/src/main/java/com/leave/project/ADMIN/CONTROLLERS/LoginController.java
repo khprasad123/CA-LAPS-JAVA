@@ -36,35 +36,20 @@ public class LoginController {
 	}
 
 	@PostMapping(path = "/*/authenticate")
-	public ModelAndView onAuthen(@ModelAttribute LoginForm login, HttpServletRequest hiddenUser,HttpSession session) {
-
-		ModelAndView mv = new ModelAndView("Login");
-		login.error = "Login Failed ---Invalid Credentials ";
-		mv.addObject("employee", login);
+	public String onAuthen(LoginForm login, HttpServletRequest hiddenUser,HttpSession session,Model model) {		
+		String mv="Login";
+		login.error = "Login Failed ---Invalid Credentials ";  //setting error caase first
+		model.addAttribute("employee", login);
 		
 		Employee E = emp.authenticate(login.getUsername(), login.getPassword());
 		if (E == null)
 			return mv;
 		
-		switch (E.getRole().getRoleName()) {
+		mv=E.getRole().getRoleName().toUpperCase();  //Each view is Getted for a particular role  if(admin   then view is ADMIN  
 		
-		case "Admin":
-			mv = new ModelAndView("ADMIN");
-			break;
-		case "Staff":
-			mv = new ModelAndView("STAFF");
-			break;
-		case "Manager":
-			mv = new ModelAndView("MANAGER");
-			break;
-		}
 		UserSession user = new UserSession();
-		user.setEmployee(E);
-		// setting the user //// ------SO EVERY USER MUST LOGIN TO USE ANY FUNCTIONS
+		user.setEmployee(E); 
 		hiddenUser.getSession().setAttribute("USER", user);
-		// for Setting User
-		UserSession temp = (UserSession) session.getAttribute("USER");
-		/// for getting user
 
 		return mv;
 	}
