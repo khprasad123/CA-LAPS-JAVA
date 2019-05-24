@@ -1,20 +1,10 @@
 package com.leave.project.MODELS;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -24,10 +14,7 @@ public class Role {
 	private int roleId;
 	@Length(max=100)
 	private String roleName;
-		 
 	///getters and setters
-	
-
 
 	public int getRoleId() {
 		return roleId;

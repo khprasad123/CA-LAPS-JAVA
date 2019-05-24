@@ -18,12 +18,9 @@ import com.leave.project.SERVICES.IEmployeeService;
 
 @Controller
 @SessionAttributes("session")
-public class SimpleControler {
-		
-	
+public class LoginController {
 		@Autowired
 		private EmployeeRepo empRepo;
-	
 		@Autowired
 		private IEmployeeService emp;
 		
