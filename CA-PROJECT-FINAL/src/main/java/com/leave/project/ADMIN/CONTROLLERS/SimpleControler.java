@@ -46,7 +46,6 @@ public class SimpleControler {
 			Employee E =emp.authenticate(login.getUsername(),login.getPassword());
 			if(E==null)
 					return mv;
-			
 			switch(E.getRole().getRoleName()) {
 			case "Admin":mv=new ModelAndView("ADMIN");
 						 break;
@@ -59,7 +58,6 @@ public class SimpleControler {
 			UserSession user=new UserSession();
 			user.setEmployee(E);
 			session.setAttribute("USER", user);
-			
 			return mv;
 		}
 	

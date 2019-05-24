@@ -19,7 +19,7 @@ public class EmployeeService implements IEmployeeService {
 		System.out.println(userName + password);
 		System.out.println("I am inside the service Class");
 		List<Employee> list=(List<Employee>)empRepo.findByUserNameAndPassword(userName, password);
-		if(list==null)
+		if(list.isEmpty())
 			return null;
 		return list.get(0);
 	}

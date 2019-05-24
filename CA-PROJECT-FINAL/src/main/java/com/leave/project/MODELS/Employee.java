@@ -98,8 +98,8 @@ public class Employee {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Employee(String fullName, String email, String userName, String password, Role role,
-			Employee reportsTo) {
+	public Employee(@NotNull String fullName, @NotNull String email, @NotNull String userName,
+			@NotNull String password, Role role, Employee reportsTo) {
 		super();
 		this.fullName = fullName;
 		this.email = email;
@@ -112,10 +112,8 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [empId=" + empId + ", fullName=" + fullName + ", email=" + email + ", userName=" + userName
-				+ ", password=" + password + ", role=" + role.toString() + ", reportsTo=" + reportsTo.getFullName() + "]";
+				+ ", password=" + password + ", role=" + role.getRoleId() + ", reportsTo=" + reportsTo.getFullName() + "]";
 	}
-	
-	
 	
 }
 
