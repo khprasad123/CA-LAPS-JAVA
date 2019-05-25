@@ -6,7 +6,7 @@ public enum Status {
 	Status(String status) {
 		this.status = status;
 	}
-	public String getStatus() {
-		return status;
+	public String get() {
+		return this.status;
 	}
 }
