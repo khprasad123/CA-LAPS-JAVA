@@ -33,5 +33,4 @@ public class LoginForm {
 		this.error = error;
 	}
 	
-	
 }

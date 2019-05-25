@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container">
- <h2>All Hollydays</h2><h2 align="right"> <a th:href="${'/Hollyday/add'}" class="btn btn-danger">ADD NEW HOLLYDAY</a></h2>
+ <h2>All Hollydays</h2><h2 align="right"> <a th:href="${'/admin/Hollyday/add'}" class="btn btn-danger">ADD NEW HOLLYDAY</a></h2>
         <table class="table table-striped">
             <tr>
                 <th>Name</th>
@@ -20,8 +20,8 @@
                 <td th:text="${hollyday.getHollydayName()}">Name</td>
                 <td th:text="${hollyday.getStartDate()}">Date</td>
                 <td th:text="${hollyday.getDescription()}">Description</td>
-                <td><a th:href="${'/Hollyday/edit/' + hollyday.getHollydayId()}" class="btn btn-default">Edit</a></td>
-                <td><a th:href="${'/Hollyday/delete/' + hollyday.getHollydayId()}" class="btn btn-danger">Delete</a></td>
+                <td><a th:href="${'/admin/Hollyday/edit/' + hollyday.getHollydayId()}" class="btn btn-default">Edit</a></td>
+                <td><a th:href="${'/admin/Hollyday/delete/' + hollyday.getHollydayId()}" class="btn btn-danger">Delete</a></td>
             </tr>
         </table>
     </div>
