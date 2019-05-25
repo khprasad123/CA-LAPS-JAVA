@@ -127,11 +127,10 @@ public class LeaveHistoryDetails {
 	public void setLeaveHistoryId(int leaveHistoryId) {
 		this.leaveHistoryId = leaveHistoryId;
 	}
-	public boolean check(String startDate2, String endDate2) {
-		// TODO Auto-generated method stub
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	boolean isAfter = LocalDate.parse(sdf.format(this.startDate)).isAfter(LocalDate.parse(startDate2).minusDays(1));
-    	boolean isBefore = LocalDate.parse(sdf.format(this.endDate)).isBefore(LocalDate.parse(endDate2).plusDays(1));
+	
+	public boolean check(Date startDate2, Date endDate2) {
+    	boolean isAfter = this.startDate.toLocalDate().isAfter(startDate2.toLocalDate().minusDays(1));
+    	boolean isBefore = this.endDate.toLocalDate().isBefore(endDate2.toLocalDate().plusDays(1));
     	
     	if( isAfter && isBefore)
     			{
@@ -139,6 +138,7 @@ public class LeaveHistoryDetails {
     			}    	
 		return false;
 	}
+	
 	public int getLeaveCount() {
 		long diff = this.endDate.getTime() - this.startDate.getTime();
 		return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);

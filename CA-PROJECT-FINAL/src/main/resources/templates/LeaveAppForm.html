@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form th:object="${leaveDetails}" th:action="@{/leaveAppForm}" method="post">
+<form th:object="${leaveDetails}" th:action="@{/staff/leaveAppForm}" method="post">
 <p th:if = "${error == 'error'}" th:text="${message}"></p>
 <table >
 	
