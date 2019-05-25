@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.scheduling.config.IntervalTask;
+
 import com.leave.project.UTILITIES.Status;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
@@ -128,15 +130,20 @@ public class LeaveHistoryDetails {
 		this.leaveHistoryId = leaveHistoryId;
 	}
 	
-	public boolean check(Date startDate2, Date endDate2) {
+	public boolean checkForHistory(Date startDate2, Date endDate2) {
     	boolean isAfter = this.startDate.toLocalDate().isAfter(startDate2.toLocalDate().minusDays(1));
-    	boolean isBefore = this.endDate.toLocalDate().isBefore(endDate2.toLocalDate().plusDays(1));
+    	boolean isBefore = this.endDate.toLocalDate().isBefore(endDate2.toLocalDate().plusDays(2));
     	
-    	if( isAfter && isBefore)
-    			{
-    				return true;
-    			}    	
+    	 LocalDate d =  this.startDate.toLocalDate();
+    	 
+    	if( isAfter && isBefore)  return true; 
+    			  	
 		return false;
+	}
+	public boolean validate(Date startDate2, Date endDate2) {
+    	 	if( isWithinRange(startDate2) || isWithinRange(endDate2))
+    	 		return false;
+		return true;
 	}
 	
 	public int getLeaveCount() {
@@ -154,5 +161,8 @@ public class LeaveHistoryDetails {
 	
 	///getters and setters
 	
-	
+
+	boolean isWithinRange(Date date) {
+		   return !(date.before(startDate) || date.after(endDate));
+		}
 }

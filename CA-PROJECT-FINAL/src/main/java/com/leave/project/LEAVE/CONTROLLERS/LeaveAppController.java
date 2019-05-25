@@ -83,13 +83,7 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/leaveAppForm",method=RequestMethod.POST)
 	public String leaveAppSubmit(@Valid LeaveHistoryDetails leaveDetails,BindingResult result,Model model,HttpSession session)
 	{
-		UserSession temp= (UserSession)session.getAttribute("USER");
-		Employee t=temp.getEmployee();
-		
-		leaveDetails.setEmployee(t);
-		
-		
-		
+		leaveDetails.setEmployee(emp.GetUser());
 		
 		System.out.println("************POST************");
 		System.out.println(leaveDetails);
@@ -101,7 +95,7 @@ public class LeaveAppController {
 		
 		List<LeaveHistoryDetails> leaveHistoryList1 = leaveHistoryDetailsRepo.findByStatusOrStatusNot(Status.DELETED,Status.CANCELLED);
 		
-		leaveHistoryList1 = leaveHistoryList1.stream().filter(leaveAlready->leaveAlready.check(leaveDetails.getStartDate(),leaveDetails.getEndDate())).collect(Collectors.toList());
+		leaveHistoryList1 = leaveHistoryList1.stream().filter(leaveAlready->leaveAlready.validate(leaveDetails.getStartDate(),leaveDetails.getEndDate())).collect(Collectors.toList());
 		int compareResult = LeaveAppService.compareDate(leaveDetails,numberofHoliday);
 		List<LeaveType> leaveTypeList = leaveTypeRepo.findAll();
 		model.addAttribute("leaveTypeList", leaveTypeList);
@@ -109,7 +103,6 @@ public class LeaveAppController {
 	
 		if(compareResult == LeaveAppService.SUCCESS)
 		{
-
 			if(leaveHistoryList1.size() == 0)
 			{
 				list = publicrepo.findByStartDateBetween(leaveDetails.getStartDate(),leaveDetails.getEndDate());
@@ -145,17 +138,16 @@ public class LeaveAppController {
 			}else {
 				message = "Start and End-date must be working days.";
 			}
-
+			
+			
+			
 			model.addAttribute("message", message);
 			model.addAttribute("error", "error");
 
 			return "LeaveAppForm";
 		}
 		
-	
-		
-	}
-	
+	}	
 	@RequestMapping(path="/staff/manageLeaveDetails",method=RequestMethod.GET)
 	public String manageLeaveApp(LeaveHistoryDetails leaveDetails,Model model)
 	{
@@ -267,7 +259,7 @@ public class LeaveAppController {
 	    	toExportList.clear();
 	    	if(start_date != "" && end_date != "") {
 	    	dateFilter = true;
-	    	toExportList = leaveList.stream().filter(leave -> leave.check(Date.valueOf(start_date),Date.valueOf(end_date))).collect(Collectors.toList());
+	    	toExportList = leaveList.stream().filter(leave -> leave.checkForHistory(Date.valueOf(start_date),Date.valueOf(end_date))).collect(Collectors.toList());
 	    	}
 	    	
 	    	
@@ -295,32 +287,6 @@ public class LeaveAppController {
 	    	return "leave_history";
 	    }
 	    
-	    
-	  //Export  to CSV file
-	    @GetMapping("/leave/export")
-	    public void exportCSV(HttpServletResponse response) throws Exception {
-	        //set file name and content type
-	        String filename = "LeaveList.csv";
-
-	        response.setContentType("text/csv");
-	        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-	                "attachment; filename=\"" + filename + "\"");
-	        	
-	        //Header
-	        PrintWriter pw = response.getWriter().append("NAME,LEAVE_TYPE,START_DATE,END_DATE,APPLY_REASON,REJECT_REASON,WORK_DESEMINATION\n");
-
-	        //create a csv writer
-	        StatefulBeanToCsv<LeaveHistoryDetails> writer = new StatefulBeanToCsvBuilder<LeaveHistoryDetails>(pw)
-	                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER) 
-	                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-	                .withOrderedResults(false)
-	                .build();
-
-	        // leaveRepo.findAll(new Sort(Sort.Direction.DESC, "id"));
-	               
-	        writer.write(toExportList);
-	        }
-	    
 	    @RequestMapping(path = "leave/edit_leave/{leave_history_id}", method = RequestMethod.GET)
 		public String updateleave(Model model,@PathVariable(value = "leave_history_id") String leave_history_id) {
 			LeaveHistoryDetails lhd = leaveHistoryDetailsRepo.findById(Integer.valueOf(leave_history_id)).orElse(null);
@@ -336,7 +302,7 @@ public class LeaveAppController {
 	   	}
 	    
 		@RequestMapping(path = "leave/update_leave", method=RequestMethod.GET)
-		public String saveleavestatus(@RequestParam("action")String action,@RequestParam("leaveHistoryId")String leaveHistoryId,@RequestParam("reasons") String reasons ) {
+		public String saveleavestatus(String action,String leaveHistoryId,@RequestParam("reasons") String reasons ) {
 			LeaveHistoryDetails ldh = leaveHistoryDetailsRepo.findById(Integer.valueOf(leaveHistoryId)).orElse(null);
 			Employee emp = ldh.getEmployee();
 			String leave_type =ldh.getLeaveType().getType();
@@ -365,7 +331,6 @@ public class LeaveAppController {
 
 				employeeRepo.save(emp);
 			}
-			//else 
 			leaveHistoryDetailsRepo.save(ldh);
 			return "redirect:/leave/approval_list";
 		}
@@ -376,13 +341,35 @@ public class LeaveAppController {
 		public  void sendMail(String email, String status,String reasons) {
 			 SimpleMailMessage msg = new SimpleMailMessage();
 	         msg.setTo("butterflygirl199@gmail.com");
-	         msg.setFrom("hninnwe.coder@gmail.com");
+	         msg.setFrom("isslaps.hr@gmail.com");
 
 	         msg.setSubject("LEAVE "+status);
 	         msg.setText(reasons);
 
 	         javaMailSender.send(msg);
 		}
+		
+//		********* Export to Excel file *********
+		    @GetMapping("/leave/export")
+		    public void exportCSV(HttpServletResponse response) throws Exception {
+		        String filename = "LeaveList.csv";
+		        response.setContentType("text/csv");
+		        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+		                "attachment; filename=\"" + filename + "\"");
+		        	
+		        //Header
+		        PrintWriter pw = response.getWriter().append("NAME,LEAVE_TYPE,START_DATE,END_DATE,APPLY_REASON,REJECT_REASON,WORK_DESEMINATION\n");
+		        //object list
+		        StatefulBeanToCsv<LeaveHistoryDetails> writer = new StatefulBeanToCsvBuilder<LeaveHistoryDetails>(pw)
+		                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER) 
+		                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+		                .withOrderedResults(false)
+		                .build();
+
+		        // leaveRepo.findAll(new Sort(Sort.Direction.DESC, "id"));
+		               
+		        writer.write(toExportList);
+		        }
 		
 	}
 
