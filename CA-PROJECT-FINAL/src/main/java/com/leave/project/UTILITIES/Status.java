@@ -1,12 +1,12 @@
 package com.leave.project.UTILITIES;
 
 public enum Status {
-	APPLIED("Applied"),REJECTED("Rejected"),APPROVED("Approved"),UPDATED("Updated"),DELETED("Deleted"),CANCELLED("Cancelled");
+	APPLIED("APPLIED"),REJECTED("REJECTED"),APPROVED("APPROVED"),UPDATED("UPDATED"),DELETED("DELETED"),CANCELLED("CANCELLED");
 	String status;
 	Status(String status) {
 		this.status = status;
 	}
-	String getStatus() {
+	public String getStatus() {
 		return status;
 	}
 }

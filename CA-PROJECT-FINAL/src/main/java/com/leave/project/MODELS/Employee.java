@@ -117,9 +117,32 @@ public class Employee {
 		this.compensationLeaveCount = compensationLeaveCount;
 		this.medicalLeaveCount = medicalLeaveCount;
 	}
+	
+	public Employee(int empId, @NotNull String fullName, @NotNull String email,
+			@NotNull @Length(max = 100) String userName, @NotNull String password, Role role) {
+		super();
+		this.empId = empId;
+		this.fullName = fullName;
+		this.email = email;
+		this.userName = userName;
+		this.password = password;
+		this.role = role;
+	}
+	public Employee(int empId) {
+		super();
+		this.empId = empId;
+	}
 	public Employee() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	public Employee(@NotNull String fullName) {
+		super();
+		this.fullName = fullName;
+	}
+	@Override
+	public String toString() {
+		return  fullName ;
 	}
 	
 	

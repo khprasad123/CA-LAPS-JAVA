@@ -1,6 +1,9 @@
 package com.leave.project.MODELS;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,29 +16,47 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import com.leave.project.UTILITIES.Status;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
 
 @Entity
 public class LeaveHistoryDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int leaveHistoryId;
+	
 	@ManyToOne
 	@JoinColumn(name="Emp_Id")
+	@CsvBindByPosition( position = 0)
 	private Employee employee;
+	
 	@ManyToOne
 	@JoinColumn(name="Leave_Type_Id")
+	@CsvBindByPosition( position = 1)
 	private LeaveType leaveType;
+	
 	@NotNull
+	@CsvBindByPosition( position = 2)
 	private Date startDate;
+	
 	@NotNull
+	@CsvBindByPosition( position = 3)
 	private Date endDate;
+	
 	@NotNull
+	@CsvBindByPosition( position = 4)
 	private String applyingReason;
+
+	@CsvBindByPosition( position = 5)
 	private String rejectionReason;
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Status status=Status.APPLIED;
+	
+	@CsvBindByPosition( position = 6)
 	private String workDesemination;
+	
+	
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -105,6 +126,29 @@ public class LeaveHistoryDetails {
 	}
 	public void setLeaveHistoryId(int leaveHistoryId) {
 		this.leaveHistoryId = leaveHistoryId;
+	}
+	public boolean check(String startDate2, String endDate2) {
+		// TODO Auto-generated method stub
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	boolean isAfter = LocalDate.parse(sdf.format(this.startDate)).isAfter(LocalDate.parse(startDate2).minusDays(1));
+    	boolean isBefore = LocalDate.parse(sdf.format(this.endDate)).isBefore(LocalDate.parse(endDate2).plusDays(1));
+    	
+    	if( isAfter && isBefore)
+    			{
+    				return true;
+    			}    	
+		return false;
+	}
+	public int getLeaveCount() {
+		long diff = this.endDate.getTime() - this.startDate.getTime();
+		return (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+	@Override
+	public String toString() {
+		return "LeaveHistoryDetails [leaveHistoryId=" + leaveHistoryId + ", manager=" + employee + ", leaveType="
+				+ leaveType + ", startDate=" + startDate + ", endDate=" + endDate + ", applyingReason=" + applyingReason
+				+ ", rejectionReason=" + rejectionReason + ", status=" + status + ", workDesemination="
+				+ workDesemination + "]";
 	}
 	
 	

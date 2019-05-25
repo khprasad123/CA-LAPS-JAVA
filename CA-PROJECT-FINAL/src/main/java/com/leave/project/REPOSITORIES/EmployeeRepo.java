@@ -14,5 +14,7 @@ import com.leave.project.MODELS.Role;
 public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
 
 	List<Employee> findByUserNameAndPassword(String userName, String password);
-	
+
+	List<Employee> findByReportsTo(Employee reportsTo);
+
 }

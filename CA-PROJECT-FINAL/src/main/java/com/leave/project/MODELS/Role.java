@@ -34,7 +34,7 @@ public class Role {
 
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", roleName=" + roleName + "]";
+		return roleName ;
 	}
 
 	public Role() {
@@ -44,6 +44,12 @@ public class Role {
 
 	public Role(String roleName) {
 		super();
+		this.roleName = roleName;
+	}
+
+	public Role(int roleId, @Length(max = 100) String roleName) {
+		super();
+		this.roleId = roleId;
 		this.roleName = roleName;
 	}
 	

@@ -45,7 +45,7 @@ public class LeaveType {
 
 	@Override
 	public String toString() {
-		return "LeaveType [leaveTypeId=" + leaveTypeId + ", type=" + type + "]";
+		return  type;
 	}
 	
 }
