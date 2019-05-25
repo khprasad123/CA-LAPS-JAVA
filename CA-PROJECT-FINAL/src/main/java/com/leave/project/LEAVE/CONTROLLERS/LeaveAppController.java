@@ -1,6 +1,8 @@
 package com.leave.project.LEAVE.CONTROLLERS;
 
 import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -262,7 +264,7 @@ public class LeaveAppController {
 	    	toExportList.clear();
 	    	if(start_date != "" && end_date != "") {
 	    	dateFilter = true;
-	    //	toExportList = leaveList.stream().filter(leave -> leave.check(start_date,end_date)).collect(Collectors.toList());
+	    	toExportList = leaveList.stream().filter(leave -> leave.check(Date.valueOf(start_date),Date.valueOf(end_date))).collect(Collectors.toList());
 	    	}
 	    	
 	    	
