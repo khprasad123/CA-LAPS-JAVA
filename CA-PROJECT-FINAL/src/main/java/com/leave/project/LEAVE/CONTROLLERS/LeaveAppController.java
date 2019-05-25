@@ -37,6 +37,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 @Controller
 public class LeaveAppController {
+	
 	@Autowired
 	private LeaveTypeRepo leaveTypeRepo;
 	
@@ -65,13 +66,13 @@ public class LeaveAppController {
 		return "LeaveAppForm";
 	}
 	
-	@RequestMapping(path="/leaveAppForm",method=RequestMethod.POST)
+	@RequestMapping(path="/Employee/leaveAppForm",method=RequestMethod.POST)
 	public String leaveAppSubmit(@Valid LeaveHistoryDetails leaveDetails,BindingResult result,Model model)
 	{
 		
 		if(LeaveAppService.compareDate(leaveDetails))
 		{
-			leaveDetails.setEmployee(employeeRepo.findById(3).get());
+			leaveDetails.setEmployee(employeeRepo.findById(2).get());
 			leaveHistoryDetailsRepo.save(leaveDetails);
 			List<LeaveHistoryDetails> leaveHistoryList = leaveHistoryDetailsRepo.findByStatusOrStatus(Status.APPLIED,Status.UPDATED);
 			model.addAttribute("leaveHistoryList", leaveHistoryList);

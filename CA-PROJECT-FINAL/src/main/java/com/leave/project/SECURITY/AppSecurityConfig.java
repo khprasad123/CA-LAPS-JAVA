@@ -35,14 +35,18 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		/*
-		 * http .csrf() .disable()
-		 * .authorizeRequests().antMatchers("/login").permitAll()
-		 * .anyRequest().authenticated() .and() .formLogin()
-		 * .loginPage("/login").permitAll() .and() .logout().invalidateHttpSession(true)
-		 * .clearAuthentication(true) .logoutRequestMatcher(new
-		 * AntPathRequestMatcher("/logout")) .logoutSuccessUrl("/logout").permitAll();
-		 */
+		
+		http .csrf() .disable()
+		  .authorizeRequests().antMatchers("/login").permitAll()
+		  .anyRequest()
+		  .authenticated() 
+		  .and() 
+		  .formLogin()
+		  .loginProcessingUrl("/login").permitAll()
+		  .successForwardUrl("/*/authenticate")
+		  .and()
+		  .logout().invalidateHttpSession(true)
+		  .clearAuthentication(true).logoutSuccessUrl("/login").permitAll();
 		
 		super.configure(http);
 	}

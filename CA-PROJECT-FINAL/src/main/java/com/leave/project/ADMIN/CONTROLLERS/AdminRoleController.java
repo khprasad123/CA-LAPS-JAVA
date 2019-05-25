@@ -10,69 +10,77 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.leave.project.MODELS.Employee;
-import com.leave.project.MODELS.LeaveType;
-import com.leave.project.REPOSITORIES.LeaveTypeRepo;
+import com.leave.project.MODELS.PublicHollyday;
+import com.leave.project.REPOSITORIES.PublicHollydayRepo;
 import com.leave.project.SERVICES.IEmployeeService;
+
 @Controller
-public class AdminLeaveController {
+public class AdminRoleController {
 	@Autowired
 	private IEmployeeService emp;
 	
+	private PublicHollydayRepo phRepo;
 	@Autowired
-	private LeaveTypeRepo leaveRepo;
-
-	@GetMapping(path="/admin/LeaveType/view")
+	public void setPhRepo(PublicHollydayRepo phRepo) {
+		this.phRepo = phRepo;
+	}
+	
+	@GetMapping(path="/admin/role/view")
 	public String viewHollydays(Model model) {
 		
 		Employee t=emp.GetUser();
 		if(!t.getRole().getRoleName().equals("Admin"))
 			return "redirect:/logout";
 		
-		model.addAttribute("leavetypes",leaveRepo.findAll());
-		return "ViewLeaveTypes";
+		model.addAttribute("hollydays",phRepo.findAll());
+		return "ViewRoles";
 	}
-	@GetMapping(path="/admin/LeaveType/add")
+	
+	@GetMapping(path="/admin/role/add")
 	public String getHollydayForm(Model model) {
 		
 		Employee t=emp.GetUser();
 		if(!t.getRole().getRoleName().equals("Admin"))
 			return "redirect:/logout";
 		
-		model.addAttribute("leavetype",new LeaveType());
-		return "LeaveTypeForm";
+		model.addAttribute("hollyday",new PublicHollyday());
+		return "RoleForm";
 	}
-	@PostMapping(path="/admin/LeaveType")
-	public String saveLeaveType(Model model,LeaveType E) {
+	
+	@PostMapping(path="/admin/role")
+	public String saveHollyday(Model model,PublicHollyday E) {
 		
 		Employee t=emp.GetUser();
 		if(!t.getRole().getRoleName().equals("Admin"))
 			return "redirect:/logout";
 		
-		
-		leaveRepo.save(E);
-		return "redirect:/admin/LeaveType/view";
+		phRepo.save(E);
+		return "redirect:/admin/role/view";
 	}
 
-	 @GetMapping(path="/admin/LeaveType/edit/{id}") 
+	
+	 @GetMapping(path="/admin/role/edit/{id}") 
 	 public String editHollyday(@PathVariable(name = "id") int id,Model model) {
 			
 			Employee t=emp.GetUser();
 			if(!t.getRole().getRoleName().equals("Admin"))
 				return "redirect:/logout";
-			
-			
-		 model.addAttribute("leavetype",leaveRepo.findById(id)); 
-		 return "LeaveTypeForm";
+		 
+		 model.addAttribute("hollyday",phRepo.findById(id)); 
+		 return "RoleForm";
 	 }
 	 
-	@RequestMapping(path ="/admin/LeaveType/delete/{id}", method = RequestMethod.GET)
+	
+//for deletion simple 
+	@RequestMapping(path ="/admin/role/delete/{id}", method = RequestMethod.GET)
 	public String deleteProduct(@PathVariable(name = "id") int id,Model model){
 		
 		Employee t=emp.GetUser();
 		if(!t.getRole().getRoleName().equals("Admin"))
 			return "redirect:/logout";
 		
-		leaveRepo.delete(leaveRepo.findById(id).orElse(null)); 
-		return "redirect:/admin/LeaveType/view";
+		
+		phRepo.delete(phRepo.findById(id).orElse(null)); 
+		return "redirect:/admin/role/view";
 	}
 }

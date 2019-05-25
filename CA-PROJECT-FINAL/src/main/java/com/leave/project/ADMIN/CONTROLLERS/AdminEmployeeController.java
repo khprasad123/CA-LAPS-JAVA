@@ -19,9 +19,13 @@ import com.leave.project.BEANS.UserSession;
 import com.leave.project.MODELS.Employee;
 import com.leave.project.REPOSITORIES.EmployeeRepo;
 import com.leave.project.REPOSITORIES.RoleRepo;
+import com.leave.project.SERVICES.IEmployeeService;
 
 @Controller
 public class AdminEmployeeController {
+	
+	@Autowired
+	private IEmployeeService emp;
 	
 	private EmployeeRepo empRepo;
 	@Autowired
@@ -34,38 +38,17 @@ public class AdminEmployeeController {
 	public void setRoleRepo(RoleRepo roleRepo) {
 		this.roleRepo = roleRepo;
 	}
-	/*
-	  	USE -----HttpSession session AS CONTROLLER METHOD PARAMETER    ----- FOR ANY CONTROLLER 
-	  	UserSession temp= (UserSession)session.getAttribute("USER");
-	  	model.addAttribute("ERROR","UN-Authorized Access");
-	  	if(temp==null)
-				return "redirect:/*";   ///default path for login
-	 
-		Employee t=temp.getEmployee();
 
-		if(t == null|| !(t.getRole().getRoleName().equals("Admin"))) {    //FOR EACH CONTROLLER CERTAIN ROLES WILL BE THERE
-			
-			return "redirect:/*";
-		} 
-		
-		AND USER LOGIN WILL WORK AS ALWAYS  ------ FOR TESTING PURPOSE PUT USERNAME :   admin    PASSWORD :   admin 
-		
-		THIS IS JUST FOR SAYING WE USED SPRING SECURITY ....WHAT WE DID IS SESSION BASED SECURITY
-		
-	 	THIS IS THE CODE FOR VALIDATING THE USER SESSION
-	 */
 	
 	@GetMapping(path = "/admin/Employee/view")
-	public String getEmployeeList(Model model,HttpSession session) {
+	public String getEmployeeList(Model model) {
 		
-		UserSession temp= (UserSession)session.getAttribute("USER");
-		model.addAttribute("ERROR","UN-Authorized Access");
-		if(temp==null)
-				return "redirect:/*/logout";
-		Employee t=temp.getEmployee();
-		if(t == null|| !(t.getRole().getRoleName().equals("Admin"))) {
-			return "redirect:/*/logout";     ///defaulf path for logging out safely
-		}
+		Employee t=emp.GetUser();
+		
+		System.out.println(t.getRole().getRoleName());
+		if(!t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+
 		
 		ArrayList<Employee> list = (ArrayList<Employee>) empRepo.findAll();
 		list = (ArrayList<Employee>)list.stream().filter(emp -> !emp.getRole().getRoleName().equalsIgnoreCase("admin")).collect(Collectors.toList());
@@ -75,16 +58,12 @@ public class AdminEmployeeController {
 	
 	
 	@GetMapping(path = "/admin/Employee/add")
-	public String getEmployeeForm(Model model,HttpSession session) {
+	public String getEmployeeForm(Model model) {
 		
-		UserSession temp= (UserSession)session.getAttribute("USER");
-		model.addAttribute("ERROR","UN-Authorized Access");
-		if(temp==null)
-				return "redirect:/*/logout";
-		Employee t=temp.getEmployee();
-		if(t == null|| !(t.getRole().getRoleName().equals("Admin"))) {
-			return "redirect:/*/logout";     ///defaulf path for logging out safely
-		}
+		Employee t=emp.GetUser();
+		if(!t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		
 		List<Employee> managers = empRepo.findAll();
 		managers = (List<Employee>)managers.stream().filter(emp -> emp.getRole().getRoleName().equalsIgnoreCase("manager")).collect(Collectors.toList());
@@ -98,16 +77,11 @@ public class AdminEmployeeController {
 	
 	
 	@PostMapping(path = "/admin/Employee")
-	public String saveEmployee(Model model,Employee E,HttpSession session) {
+	public String saveEmployee(Model model,Employee E) {
 		
-		UserSession temp= (UserSession)session.getAttribute("USER");
-		model.addAttribute("ERROR","UN-Authorized Access");
-		if(temp==null)
-				return "redirect:/*/logout";
-		Employee t=temp.getEmployee();
-		if(t == null|| !(t.getRole().getRoleName().equals("Admin"))) {
-			return "redirect:/*/logout";     ///defaulf path for logging out safely
-		}
+		Employee t=emp.GetUser();
+		if(!t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
 		
 		try{
 			empRepo.save(E);
@@ -119,16 +93,11 @@ public class AdminEmployeeController {
 	
 	
 	@GetMapping(path = "/admin/Employee/edit/{id}")
-	public String editProduct(@PathVariable(value = "id") int id,Model model,HttpSession session) {
+	public String editProduct(@PathVariable(value = "id") int id,Model model) {
 		
-		UserSession temp= (UserSession)session.getAttribute("USER");
-		model.addAttribute("ERROR","UN-Authorized Access");
-		if(temp==null)
-				return "redirect:/*/logout";
-		Employee t=temp.getEmployee();
-		if(t == null|| !(t.getRole().getRoleName().equals("Admin"))) {
-			return "redirect:/*/logout";     ///defaulf path for logging out safely
-		}
+		Employee t=emp.GetUser();
+		if(!t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
 		
 		List<Employee> managers = empRepo.findAll();
 		managers = (List<Employee>)managers.stream().filter(emp -> emp.getRole().getRoleName().equalsIgnoreCase("manager")).collect(Collectors.toList());
@@ -141,16 +110,11 @@ public class AdminEmployeeController {
 	
 	
 	@RequestMapping(path = "/admin/Employee/delete/{id}", method = RequestMethod.GET)
-	public String deleteProduct(@PathVariable(name = "id") int id,Model model,HttpSession session) {
+	public String deleteProduct(@PathVariable(name = "id") int id,Model model) {
 		
-		UserSession temp= (UserSession)session.getAttribute("USER");
-		model.addAttribute("ERROR","UN-Authorized Access");
-		if(temp==null)
-				return "redirect:/*/logout";
-		Employee t=temp.getEmployee();
-		if(t == null|| !(t.getRole().getRoleName().equals("Admin"))) {
-			return "redirect:/*/logout";     ///defaulf path for logging out safely
-		}
+		Employee t=emp.GetUser();
+		if(!t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
 		
 		try{
 			empRepo.delete(empRepo.findById(id).orElse(null));
