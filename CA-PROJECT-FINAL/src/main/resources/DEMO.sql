@@ -1,9 +1,13 @@
 
 CREATE SCHEMA `ca_project2` ;
 
+
+
+
 use ca_project2;
- drop table if exists employee;
  drop table if exists leave_history_details;
+ drop table if exists employee;
+
  drop table if exists leave_type;
  drop table if exists public_hollyday;
  drop table if exists role;

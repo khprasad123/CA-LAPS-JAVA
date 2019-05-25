@@ -45,7 +45,7 @@ public class AdminEmployeeController {
 		
 		Employee t=emp.GetUser();
 		
-		System.out.println(t.getRole().getRoleName());
+	
 		if(!t.getRole().getRoleName().equals("Admin"))
 			return "redirect:/logout";
 
