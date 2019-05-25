@@ -2,14 +2,12 @@ package com.leave.project.LEAVE.CONTROLLERS;
 
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.leave.project.BEANS.UserSession;
 import com.leave.project.MODELS.Employee;
 import com.leave.project.MODELS.LeaveHistoryDetails;
 import com.leave.project.MODELS.LeaveType;
 import com.leave.project.MODELS.PublicHollyday;
-import com.leave.project.MODELS.Role;
 import com.leave.project.REPOSITORIES.EmployeeRepo;
 import com.leave.project.REPOSITORIES.LeaveHistoryRepo;
 import com.leave.project.REPOSITORIES.LeaveTypeRepo;
@@ -67,12 +63,19 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/staffView",method=RequestMethod.GET)
 	public String staffView()
 	{
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
 		return "STAFF";
 	}
 	
 	@RequestMapping(path="/staff/leaveAppForm",method=RequestMethod.GET)
 	public String leaveAppForm(Model model)
 	{
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		model.addAttribute("leaveDetails", new LeaveHistoryDetails());
 		List<LeaveType> leaveTypeList = leaveTypeRepo.findAll();
 		model.addAttribute("leaveTypeList", leaveTypeList);
@@ -81,14 +84,15 @@ public class LeaveAppController {
 	
 
 	@RequestMapping(path="/staff/leaveAppForm",method=RequestMethod.POST)
-	public String leaveAppSubmit(@Valid LeaveHistoryDetails leaveDetails,BindingResult result,Model model,HttpSession session)
+	public String leaveAppSubmit(@Valid LeaveHistoryDetails leaveDetails,BindingResult result,Model model)
 	{
-		leaveDetails.setEmployee(emp.GetUser());
+
+		Employee t=emp.GetUser();
 		
-		System.out.println("************POST************");
-		System.out.println(leaveDetails);
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
 		
-		
+		leaveDetails.setEmployee(t);
 		List<PublicHollyday> list = new ArrayList<PublicHollyday>();
 		list = publicrepo.findByStartDateOrStartDate(leaveDetails.getStartDate(),leaveDetails.getEndDate());
 		int numberofHoliday =  list.size();
@@ -151,6 +155,10 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/manageLeaveDetails",method=RequestMethod.GET)
 	public String manageLeaveApp(LeaveHistoryDetails leaveDetails,Model model)
 	{
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		List<LeaveHistoryDetails> leaveHistoryList = leaveHistoryDetailsRepo.findByStatusOrStatus(Status.APPLIED,Status.UPDATED);
 		model.addAttribute("leaveHistoryList", leaveHistoryList);
 		return "ManageLeaveApp";
@@ -160,6 +168,10 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/updateLeaveForm/{leaveHistoryId}",method=RequestMethod.GET)
 	public String updateLeaveForm(@PathVariable(value="leaveHistoryId") int leaveHistoryId,Model model)
 	{  
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		LeaveHistoryDetails leavehistory = leaveHistoryDetailsRepo.findById(leaveHistoryId).orElse(null);
 		leavehistory.setStatus(Status.UPDATED);
 		model.addAttribute("leaveDetails",leavehistory);
@@ -172,6 +184,10 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/deleteLeaveForm/{leaveHistoryId}",method=RequestMethod.GET)
 	public String deleteLeaveForm(@PathVariable(value="leaveHistoryId") int leaveHistoryId,Model model)
 	{  
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		LeaveHistoryDetails leavehistory = leaveHistoryDetailsRepo.findById(leaveHistoryId).orElse(null);
 		leavehistory.setStatus(Status.DELETED);
 		leaveHistoryDetailsRepo.save(leavehistory);
@@ -181,6 +197,10 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/viewApprovedLeaves",method=RequestMethod.GET)
 	public String viewApprovedLeaves(LeaveHistoryDetails leaveDetails,Model model)
 	{
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		List<LeaveHistoryDetails> leaveHistoryList = leaveHistoryDetailsRepo.findByStatus(Status.APPROVED);
 		model.addAttribute("leaveHistoryList", leaveHistoryList);
 		return "ViewAppliedLeaves";
@@ -189,6 +209,10 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/cancelLeaveForm/{leaveHistoryId}",method=RequestMethod.GET)
 	public String cancelLeaveForm(@PathVariable(value="leaveHistoryId") int leaveHistoryId,Model model)
 	{  
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		LeaveHistoryDetails leavehistory = leaveHistoryDetailsRepo.findById(leaveHistoryId).orElse(null);
 		leavehistory.setStatus(Status.CANCELLED);
 		leaveHistoryDetailsRepo.save(leavehistory);
@@ -201,6 +225,10 @@ public class LeaveAppController {
 	@RequestMapping(path="/staff/viewPersonalLeaveHistory",method=RequestMethod.GET)
 	public String viewPersonalLeaveHistory(LeaveHistoryDetails leaveDetails,Model model)
 	{
+		Employee t=emp.GetUser();
+		if(t.getRole().getRoleName().equals("Admin"))
+			return "redirect:/logout";
+		
 		List<LeaveHistoryDetails> leaveHistoryList = leaveHistoryDetailsRepo.findAll();
 		model.addAttribute("leaveHistoryList", leaveHistoryList);
 		return "ViewPersonalLeaveHistory";
@@ -211,9 +239,12 @@ public class LeaveAppController {
 	  @RequestMapping(path = "/leave/approval_list", method = RequestMethod.GET)
 	    public String showEmployeeList(Model model) {
 	        
-	    	Employee E=emp.GetUser();
-
-	    	List<Employee> empList = employeeRepo.findByReportsTo(E);
+			Employee t=emp.GetUser();
+			if(!t.getRole().getRoleName().equals("Manager"))
+				return "redirect:/logout";
+	    	
+	    	
+	    	List<Employee> empList = employeeRepo.findByReportsTo(t);
 	    	leaveList = new ArrayList<LeaveHistoryDetails>();
 	    	List<LeaveHistoryDetails> temp = new ArrayList<LeaveHistoryDetails>();
 	    	
@@ -230,7 +261,13 @@ public class LeaveAppController {
 	  
 	  @RequestMapping(path = "/leave/leave_history", method = RequestMethod.GET)
 	    public String showLeaveHistory(Model model) {
-	    	List<Employee> empList = getEmployeeList();
+			
+		  	Employee t=emp.GetUser();
+			if(!t.getRole().getRoleName().equals("Manager"))
+				return "redirect:/logout";
+		  
+		  
+		  	List<Employee> empList = getEmployeeList();
 	    	leaveList = new ArrayList<LeaveHistoryDetails>();
 	    	
 	    	Iterator<Employee> i = empList.iterator();
@@ -255,7 +292,12 @@ public class LeaveAppController {
 	    
 	  	@RequestMapping(path = "/leave/filter", method = RequestMethod.GET)
 	    public String filterLeaveHistory(@RequestParam String leave_type,@RequestParam String status,@RequestParam String start_date,@RequestParam String end_date,Model model) {
-	    	boolean dateFilter = false;
+	  		Employee t=emp.GetUser();
+			if(!t.getRole().getRoleName().equals("Manager"))
+				return "redirect:/logout";
+	  		
+	  		
+	  		boolean dateFilter = false;
 	    	toExportList.clear();
 	    	if(start_date != "" && end_date != "") {
 	    	dateFilter = true;
@@ -286,23 +328,36 @@ public class LeaveAppController {
 
 	    	return "leave_history";
 	    }
-	    
+
 	    @RequestMapping(path = "leave/edit_leave/{leave_history_id}", method = RequestMethod.GET)
 		public String updateleave(Model model,@PathVariable(value = "leave_history_id") String leave_history_id) {
-			LeaveHistoryDetails lhd = leaveHistoryDetailsRepo.findById(Integer.valueOf(leave_history_id)).orElse(null);
+	    	Employee t=emp.GetUser();
+			if(!t.getRole().getRoleName().equals("Manager"))
+				return "redirect:/logout";
+	    	
+	    	
+	    	LeaveHistoryDetails lhd = leaveHistoryDetailsRepo.findById(Integer.valueOf(leave_history_id)).orElse(null);
 			model.addAttribute("updateleave", lhd); 
 			return "edit_leave";
 		}
 	    
 	    @RequestMapping(path = "leave/leave_detail/{leave_history_id}", method = RequestMethod.GET)
 	   	public String leaveDetail(Model model,@PathVariable(value = "leave_history_id") String leave_history_id) {
-	   		LeaveHistoryDetails lhd = leaveHistoryDetailsRepo.findById(Integer.valueOf(leave_history_id)).orElse(null);
+	    	Employee t=emp.GetUser();
+			if(!t.getRole().getRoleName().equals("Manager"))
+				return "redirect:/logout";
+	    	
+	    	LeaveHistoryDetails lhd = leaveHistoryDetailsRepo.findById(Integer.valueOf(leave_history_id)).orElse(null);
 	   		model.addAttribute("leave_detail", lhd); 
 	   		return "leave_detail";
 	   	}
 	    
 		@RequestMapping(path = "leave/update_leave", method=RequestMethod.GET)
-		public String saveleavestatus(String action,String leaveHistoryId,@RequestParam("reasons") String reasons ) {
+		public String saveleavestatus(@RequestParam("action")String action,@RequestParam("leaveHistoryId")String leaveHistoryId,@RequestParam("reasons") String reasons ) {
+	    	Employee t=emp.GetUser();
+			if(!t.getRole().getRoleName().equals("Manager"))
+				return "redirect:/logout";
+			
 			LeaveHistoryDetails ldh = leaveHistoryDetailsRepo.findById(Integer.valueOf(leaveHistoryId)).orElse(null);
 			Employee emp = ldh.getEmployee();
 			String leave_type =ldh.getLeaveType().getType();

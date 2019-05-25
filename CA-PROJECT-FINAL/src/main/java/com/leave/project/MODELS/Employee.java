@@ -104,8 +104,7 @@ public class Employee {
 		this.medicalLeaveCount = medicalLeaveCount;
 	}
 	public Employee(@NotNull String fullName, @NotNull String email, @NotNull String userName,
-			@NotNull String password, Role role, Employee reportsTo, int annualLeaveCount, int compensationLeaveCount,
-			int medicalLeaveCount) {
+			@NotNull String password, Role role, Employee reportsTo, int annualLeaveCount,int medicalLeaveCount, int compensationLeaveCount) {
 		super();
 		this.fullName = fullName;
 		this.email = email;
