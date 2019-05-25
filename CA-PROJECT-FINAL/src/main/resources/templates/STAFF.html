@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<table>
+	<tr>
+	<td><a th:href="${'/staff/leaveAppForm'}">Submit Leave Application</a></td>
+	</tr>
+	<tr>
+	<td><a th:href="${'/staff/manageLeaveDetails'}">View/Edit Applied Leaves</a></td>
+	</tr>
+	<tr>
+	<td><a th:href="${'/staff/viewApprovedLeaves'}">View Approved Leaves</a></td>
+	</tr>
+	<tr>
+	<td><a th:href="${'/staff/viewPersonalLeaveHistory'}">View Personal Leave History</a></td>
+	</tr>
+	
+</table>
+</body>
+</html>

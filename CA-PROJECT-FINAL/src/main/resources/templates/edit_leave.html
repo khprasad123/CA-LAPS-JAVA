@@ -5,7 +5,7 @@
 <head>
 </head>
 		<h2>Approval Form</h2>
-			<form th:object="${updateleave}" method="post">
+			<form th:object="${updateleave}" action="leave/update_leave" th:action="@{/leave/update_leave}" method="get">
 
 			<tr th:each="leave : ${updateleave}">
 		
@@ -14,7 +14,7 @@
 			
 			
             <td style="width: 150px;">LeaveId : </td>
-			<td style="width: 100px;" th:text="${leave.leaveHistoryId}" name = 'leave_id' >leave_id</td><br/><br/>
+			<td style="width: 100px;" th:text="${leave.leaveHistoryId}" name = "leave_id">leave_id</td><br/><br/>
 		
 
 			<td style="width: 200px;">Leave Type : </td>
@@ -35,12 +35,14 @@
 			
             <td style="width: 150px;">Work Desemination : </td>
 			<td style="width: 100px;" th:text="${leave.workDesemination}">workDesemination</td><br/><br/>
+		 	<td><input type="hidden" th:field = "*{leaveHistoryId}"/></td> 
 			
 			</tr>
 			
 					<div>
 					<label>Rejection Reason:</label>
 					<input type='text' name='reasons' />
+					
 					</div>
 					<div>
 						<button type="submit" id="approved" name = "action" value="1">Approved</button>

@@ -14,4 +14,6 @@ public interface LeaveHistoryRepo extends JpaRepository<LeaveHistoryDetails, Int
 
 	List<LeaveHistoryDetails> findByEmployeeAndStatus(Employee emp,Status status);
 	List<LeaveHistoryDetails> findByEmployee(Employee emp);
+	List<LeaveHistoryDetails> findByStatusOrStatusNot(Status status,Status status1);
+
 }

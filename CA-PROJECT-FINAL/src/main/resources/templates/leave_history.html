@@ -11,16 +11,12 @@
  <form th:action="@{/leave/filter}" method="get" class="form-horizontal" >
   <div th:if="${not #lists.isEmpty(leave_type_lists)}">
 	<div class="row">
-		<div class="col-2">
-			<!-- <input type="date" name=dateDebut th:value="${#dates.format(dateDebut, 'yyyy-MM-dd')}" text ="yyyy-MM-dd" >-->	
- 			StartDate: <input name="start_date" type="text" placeholder="YYYY-MM-DD" title="Enter a date in this format: YYYY-MM-DD"
-                        pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"/>
-			
- 		</div>
-		<div class="col-2">
-			EndDate: <input  name="end_date" type="text" placeholder="YYYY-MM-DD" title="Enter a date in this format: YYYY-MM-DD"
-                        pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))"/>
-		</div>
+		
+			<div class="col-2">
+			StartDate: <input name="start_date" type="date" th:value="${startdate}"/></div>
+			<div class="col-2">
+			EndDate:  <input  name="end_date" type="date" th:value="${enddate}"/></div>
+		
 		<div class="col-3">
 			<select style="width:200px;height:30px;" id="leave_type" name="leave_type" > 
 		  	     <option th:value = "ALL" > ALL LeaveType</option>
@@ -34,9 +30,9 @@
 			<select style="width:200px;height:30px;" name="status"> 
 				<Option th:text = "ALL" th:selected>ALL Status</Option>
 				<Option th:each = "s : ${T(com.leave.project.UTILITIES.Status).values()}"
-					 th:value = "${s.status}"
-					 th:text = "${s.status}"
-					 th:selected = "${s.status == status}"> 
+					 th:value = "${s.get()}"
+					 th:text = "${s.get()}"
+					 th:selected = "${s.get() == status}"> 
 		 </select>
 		</div>
 		<div class="col-2">
