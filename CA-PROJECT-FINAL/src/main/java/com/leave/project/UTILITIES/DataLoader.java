@@ -58,7 +58,7 @@ public class DataLoader implements CommandLineRunner {
 		  try{ roleRepo.save(r1); roleRepo.save(r2); roleRepo.save(r3);
 		  }catch(Exception e) { System.out.println("Role Already there Bro"); }
 		 
-		  try { empRepo.save(E1); empRepo.save(E2); }catch(Exception e) {
+		  try { empRepo.save(E1); empRepo.save(E2); empRepo.save(E3);}catch(Exception e) {
 		  System.out.println("Manager insertion Failed bro"); }
 		 
 	}

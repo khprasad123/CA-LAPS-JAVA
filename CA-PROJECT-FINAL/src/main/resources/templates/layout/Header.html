@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head >
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body {
@@ -43,8 +43,7 @@ body {
 </div>
 
 <div style="padding-left:16px">
-	<h2 align="right"> <a th:href="${'/logout'}" class="btn btn-danger">Logout</a></h2>
-
+	<a th:href="${'/logout'}">Logout</a>
 </div>
 
 </body>

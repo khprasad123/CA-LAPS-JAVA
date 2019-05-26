@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.leave.project.MODELS.Employee;
 import com.leave.project.MODELS.PublicHollyday;
+import com.leave.project.MODELS.Role;
 import com.leave.project.REPOSITORIES.PublicHollydayRepo;
+import com.leave.project.REPOSITORIES.RoleRepo;
 import com.leave.project.SERVICES.IEmployeeService;
 
 @Controller
@@ -19,9 +21,9 @@ public class AdminRoleController {
 	@Autowired
 	private IEmployeeService emp;
 	
-	private PublicHollydayRepo phRepo;
+	private RoleRepo phRepo;
 	@Autowired
-	public void setPhRepo(PublicHollydayRepo phRepo) {
+	public void setPhRepo(RoleRepo phRepo) {
 		this.phRepo = phRepo;
 	}
 	
@@ -37,18 +39,18 @@ public class AdminRoleController {
 	}
 	
 	@GetMapping(path="/admin/role/add")
-	public String getHollydayForm(Model model) {
+	public String getRoleForm(Model model) {
 		
-		Employee t=emp.GetUser();
-		if(!t.getRole().getRoleName().equals("Admin"))
-			return "redirect:/logout";
-		
-		model.addAttribute("hollyday",new PublicHollyday());
+		   Employee t=emp.GetUser(); 
+		  if(!t.getRole().getRoleName().equals("Admin")) 
+			  	return "redirect:/logout";
+		 		
+		model.addAttribute("role",new Role());
 		return "RoleForm";
 	}
 	
 	@PostMapping(path="/admin/role")
-	public String saveHollyday(Model model,PublicHollyday E) {
+	public String saveHollyday(Model model,Role E) {
 		
 		Employee t=emp.GetUser();
 		if(!t.getRole().getRoleName().equals("Admin"))
@@ -66,7 +68,7 @@ public class AdminRoleController {
 			if(!t.getRole().getRoleName().equals("Admin"))
 				return "redirect:/logout";
 		 
-		 model.addAttribute("hollyday",phRepo.findById(id)); 
+		 model.addAttribute("role",phRepo.findById(id)); 
 		 return "RoleForm";
 	 }
 	 
